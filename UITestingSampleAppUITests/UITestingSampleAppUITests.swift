@@ -30,12 +30,55 @@ class UITestingSampleAppUITests: XCTestCase {
         super.tearDown()
     }
 
+    func testRecording() {
+        
+        let app = XCUIApplication()
+        let username1TextField = app.textFields["username1"]
+        username1TextField.tap()
+        
+        let passwordSecureTextField = app.secureTextFields["password"]
+        passwordSecureTextField.tap()
+        username1TextField.tap()
+        passwordSecureTextField.tap()
+        username1TextField.tap()
+        username1TextField.typeText("username")
+        passwordSecureTextField.tap()
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("password")
+        username1TextField.tap()
+        username1TextField.tap()
+        passwordSecureTextField.tap()
+        username1TextField.tap()
+        passwordSecureTextField.tap()
+        app.buttons["login_button"].tap()
+        app.staticTexts["Main Screen"].tap()
+        
+        
+    }
+    
+    func testEmptyPasswordUsingUIRecording() {
+        
+        let app = XCUIApplication()
+        let usernameTextField = app.textFields["username"]
+        usernameTextField.tap()
+        usernameTextField.typeText("a")
+        
+        let passwordSecureTextField = app.secureTextFields["password"]
+        passwordSecureTextField.tap()
+        passwordSecureTextField.tap()
+        app.buttons["login_button"].tap()
+        
+        let alert = app.alerts.staticTexts["Empty password"]
+        let predicate = NSPredicate(format: "exists == true")
+        expectationForPredicate(predicate, evaluatedWithObject: alert, handler: nil)
+        waitForExpectationsWithTimeout(TIMEOUT, handler: nil)
+    }
     
     func testEmptyUsername() {
         
         let app = XCUIApplication()
         let usernameTextField = app.textFields["username"]
-        tapElementAndWaitForKeyboardToAppear(usernameTextField)
+        usernameTextField.tap()
         app.buttons["Log in"].tap()
         
         let alert = app.alerts.staticTexts["Empty username"]
@@ -49,11 +92,11 @@ class UITestingSampleAppUITests: XCTestCase {
         
         let app = XCUIApplication()
         let usernameTextField = app.textFields["username"]
-        tapElementAndWaitForKeyboardToAppear(usernameTextField)
-        usernameTextField.typeText("a")
+        usernameTextField.tap()
+        usernameTextField.typeText("username")
         
         let passwordSecureTextField = app.secureTextFields["password"]
-        tapElementAndWaitForKeyboardToAppear(passwordSecureTextField)
+        passwordSecureTextField.tap()
         app.buttons["Log in"].tap()
         
         let alert = app.alerts.staticTexts["Empty password"]
@@ -67,11 +110,11 @@ class UITestingSampleAppUITests: XCTestCase {
         
         let app = XCUIApplication()
         let usernameTextField = app.textFields["username"]
-        tapElementAndWaitForKeyboardToAppear(usernameTextField)
-        usernameTextField.typeText("a")
+        usernameTextField.tap()
+        usernameTextField.typeText("username")
         
         let passwordSecureTextField = app.secureTextFields["password"]
-        tapElementAndWaitForKeyboardToAppear(passwordSecureTextField)
+        passwordSecureTextField.tap()
         passwordSecureTextField.typeText("a")
         app.buttons["Log in"].tap()
         
@@ -85,12 +128,12 @@ class UITestingSampleAppUITests: XCTestCase {
         
         let app = XCUIApplication()
         let usernameTextField = app.descendantsMatchingType(.TextField).matchingIdentifier("username").element
-        tapElementAndWaitForKeyboardToAppear(usernameTextField)
-        usernameTextField.typeText("a")
+        usernameTextField.tap()
+        usernameTextField.typeText("username")
         
         let passwordSecureTextField = app.secureTextFields["password"]
-        tapElementAndWaitForKeyboardToAppear(passwordSecureTextField)
-        passwordSecureTextField.typeText("1")
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("password")
         app.buttons["Log in"].tap()
         
         
@@ -101,16 +144,16 @@ class UITestingSampleAppUITests: XCTestCase {
     }
 }
 
-extension XCTestCase {
-    
-    func tapElementAndWaitForKeyboardToAppear(element: XCUIElement) {
-        let keyboard = XCUIApplication().keyboards.element
-        while (true) {
-            element.tap()
-            if keyboard.exists {
-                break;
-            }
-            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 0.5))
-        }
-    }
-}
+//extension XCTestCase {
+//    
+//    func tapElementAndWaitForKeyboardToAppear(element: XCUIElement) {
+//        let keyboard = XCUIApplication().keyboards.element
+//        while (true) {
+//            element.tap()
+//            if keyboard.exists {
+//                break;
+//            }
+//            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 0.5))
+//        }
+//    }
+//}

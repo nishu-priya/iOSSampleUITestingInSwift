@@ -10,8 +10,8 @@ import Foundation
 
 class ValidateHelper {
     
-    static let username = "a"
-    static let password = "1"
+    static let username = "username"
+    static let password = "password"
 
 
     static func validateEmptyTextField(text: String) -> Bool{
